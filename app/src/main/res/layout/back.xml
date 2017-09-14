@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <Button
+        android:id="@+id/back_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="9dp"
+        android:layout_alignParentLeft="true"
+        android:background="#545bcb"
+        android:text="返回"
+        android:textColor="#FFFFFF"
+        />
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:singleLine="true"
+        android:text="酒糟废弃物生物天然气生产运维安全预警云管理系统"
+        android:textColor="#ffffffff"
+        android:textSize="12sp" />
+    <Button
+        android:id="@+id/exit_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="9dp"
+        android:layout_alignParentRight="true"
+        android:background="#545bcb"
+        android:text="退出"
+        android:textColor="#FFFFFF"
+        />
+
+
+</RelativeLayout>
