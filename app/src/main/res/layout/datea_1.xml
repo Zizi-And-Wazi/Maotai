@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#ffffff"
-    tools:context="com.administrator.myapp.MainActivity">
+    tools:context="com.administrator.myapp.ZQJH_NHao">
 
     <TextView
         android:id="@+id/itemname"
