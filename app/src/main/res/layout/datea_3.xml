@@ -15,7 +15,7 @@
         android:paddingTop="8dp"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:text="沼气净化单元统计数据"
+        android:text=""
         android:textColor="@android:color/black"
         android:textSize="24sp" />
 
@@ -101,7 +101,7 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:layout_centerHorizontal="true"
-            android:text="参数名称"
+            android:text="序号"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
         <View
@@ -176,20 +176,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/list_item_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@null"></ListView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="7"
             android:orientation="vertical">
 
             <ListView

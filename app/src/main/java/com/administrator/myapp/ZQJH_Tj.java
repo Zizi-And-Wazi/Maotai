@@ -1,14 +1,15 @@
 package com.administrator.myapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.administrator.myapp.adapter.MyListViewAdapter1;
-import com.administrator.myapp.adapter.MyListViewAdapter2;
 import com.administrator.myapp.adapter.MyListViewAdapter2_1;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class ZQJH_Tj extends AppCompatActivity {
     private MyListViewAdapter1 adapter1;
     private MyListViewAdapter2_1 adapter4;
     private Context context;
-
+    List<String> strList_1 = new ArrayList<String>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +65,26 @@ public class ZQJH_Tj extends AppCompatActivity {
         });
 
         //右边列表（初始化添加10条数据）
-        List<String> strList_1 = new ArrayList<String>();
+
         for (int i = 0; i < 17; i++) {
             strList_1.add("");
-
         }
         adapter4 = new MyListViewAdapter2_1(this, strList_1);
         mListView2.setAdapter(adapter4);
+
+        mListView2.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            //list点击事件
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ZQJH_Tj.this, ZQJH_TJ_DATA.class);
+                intent.putExtra("name",strList_1.get(position));
+                intent.putExtra("selectIndex",selectIndex);
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(),
+                        strList_1.get(position), Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 }
 
