@@ -23,6 +23,7 @@
         <activity android:name=".ZQJH_NHao"></activity>
         <activity android:name=".YCLYY"></activity>
         <activity android:name=".ZQJH_Tj"></activity>
+        <activity android:name=".ZQJH_TJ_DATA"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

@@ -20,17 +20,17 @@ import java.util.List;
  * Created by Administrator on 2017/9/14.
  */
 
-public class DBHelper_Tj extends AsyncTask<Void,Void,List<DataResult>> {
+public class DBHelper_Tj_DATA extends AsyncTask<Void,Void,List<DataResult>> {
 
 
     //类参数
     private Context context;                    //数据界面
     private ListView mListView2;            //界面右边的ListView控件
-    private MyListViewAdapter2_1 adapter4;   //界面右边的ListView控件的数据
+    private MyListViewAdapter2 adapter4;   //界面右边的ListView控件的数据
     private int position;       //左侧点击列表的位置
 
     //构造方法(赋值)
-    public DBHelper_Tj(Context context, ListView mListView2, MyListViewAdapter2_1 adapter4, int position){
+    public DBHelper_Tj_DATA(Context context, ListView mListView2, MyListViewAdapter2 adapter4, int position){
         this.context = context;
         this.mListView2 = mListView2;
         this.adapter4 = adapter4;
@@ -64,12 +64,12 @@ public class DBHelper_Tj extends AsyncTask<Void,Void,List<DataResult>> {
     protected void onPostExecute(List<DataResult> drList) {
         List<String> list = drList.get(0).getStrList();
         //循环遍历查询的数据
-        for(int i=0;i<17;i++){
+        for(int i=0;i<100;i++){
             //更新数据
             if(i<drList.size()){
-                adapter4.updataView(i, mListView2, drList.get(i).getStrList().get(0));
+                adapter4.updataView(i, mListView2, drList.get(i).getStrList().get(0),drList.get(i+100).getStrList().get(0),drList.get(i+200).getStrList().get(0),drList.get(i+300).getStrList().get(0));
             }else{
-                adapter4.updataView(i, mListView2, "");
+                adapter4.updataView(i, mListView2, "","","","");
             }
         }
     }
@@ -93,7 +93,7 @@ public class DBHelper_Tj extends AsyncTask<Void,Void,List<DataResult>> {
             Log.d("DataBase","连接数据库MT成功");
             String sql="";
             if(position==0){
-                sql = "SELECT * FROM MT_PLCSBDESIGN  where plcsbdesign_bimid='jhplcysj'";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+                sql = "select * from MT_PLCSB_JHYSJ t where jhysj_time between to_date('2017-10-10 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('2017-10-10 23:59:59', 'yyyy-mm-dd hh24:mi:ss')";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }else if(position==1){
                 sql = "select * from MT_PLCSBDESIGN where plcsbdesign_bimid = 'jhplclcfj01'";     //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }else if(position==2){
@@ -111,8 +111,8 @@ public class DBHelper_Tj extends AsyncTask<Void,Void,List<DataResult>> {
                 DataResult dr = new DataResult();
                 if(position==0){
                     List<String> list = dr.getStrList();
-                    Log.d("DataBase",result.getString("PLCSBDESIGN_NAME"));
-                    list.add(result.getString("PLCSBDESIGN_NAME"));
+                    Log.d("DataBase",result.getString("jhysj_time"));
+                    list.add(result.getString("jhysj_time"));
                     dr.setStrList(list);
                 }else if(position==1){
                     List<String> list = dr.getStrList();
