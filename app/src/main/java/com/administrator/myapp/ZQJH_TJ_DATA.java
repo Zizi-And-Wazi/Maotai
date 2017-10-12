@@ -4,15 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.administrator.myapp.adapter.MyListViewAdapter1;
 import com.administrator.myapp.adapter.MyListViewAdapter2;
-import com.administrator.myapp.adapter.MyListViewAdapter2_1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +35,7 @@ public class ZQJH_TJ_DATA extends AppCompatActivity{
             itemName = (TextView) findViewById(R.id.itemname);
             String name = intent.getStringExtra("name");
             selectIndex = intent.getIntExtra("selectIndex",0);
-            itemName.setText(mMenus[selectIndex]+" "+name+" 统计数据");
+            itemName.setText(mMenus[selectIndex]+":"+name+" 统计数据");
         }
         initView();
         context = this;
