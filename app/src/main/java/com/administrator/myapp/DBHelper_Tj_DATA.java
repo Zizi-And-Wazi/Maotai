@@ -5,8 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.administrator.myapp.adapter.MyListViewAdapter2;
-import com.administrator.myapp.adapter.MyListViewAdapter2_1;
+import com.administrator.myapp.adapter.StaticAdapter;
 import com.administrator.myapp.entity.DataResult;
 
 import java.sql.Connection;
@@ -15,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.id.list;
 
 /**
  * Created by Administrator on 2017/9/14.
@@ -26,15 +27,22 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void,Void,List<DataResult>> {
     //类参数
     private Context context;                    //数据界面
     private ListView mListView2;            //界面右边的ListView控件
-    private MyListViewAdapter2 adapter4;   //界面右边的ListView控件的数据
+    private StaticAdapter adapter4;   //界面右边的ListView控件的数据
     private int position;       //左侧点击列表的位置
+    private String year;
+    private String month;
+    private String day;
+    private int c=0;
 
     //构造方法(赋值)
-    public DBHelper_Tj_DATA(Context context, ListView mListView2, MyListViewAdapter2 adapter4, int position){
+    public DBHelper_Tj_DATA(Context context, ListView mListView2, StaticAdapter adapter4, int position,String year,String month,String day){
         this.context = context;
         this.mListView2 = mListView2;
         this.adapter4 = adapter4;
         this.position = position;
+        this.year = year;
+        this.month = month;
+        this.day = day;
     }
 
     /**
@@ -62,12 +70,26 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void,Void,List<DataResult>> {
      */
     @Override
     protected void onPostExecute(List<DataResult> drList) {
-        List<String> list = drList.get(0).getStrList();
+        String temp="";
+        String[] t=new String[2];
         //循环遍历查询的数据
-        for(int i=0;i<100;i++){
+        for(int i=0;i<200;i++){
+            List<String> list = drList.get(i*8).getStrList();
             //更新数据
-            if(i<drList.size()){
-                adapter4.updataView(i, mListView2, drList.get(i).getStrList().get(0),drList.get(i+100).getStrList().get(0),drList.get(i+200).getStrList().get(0),drList.get(i+300).getStrList().get(0));
+            if(i<drList.size()/8){
+                for (int n = 0; n < list.get(1).length(); n++) {
+                    if (!Character.isDigit(list.get(1).charAt(n)) && list.get(1).charAt(n) != '～') {
+                        temp = list.get(1).substring(0, n);
+                        t = temp.split("～");
+                        break;
+                    }
+                }
+                if (Float.parseFloat(t[1]) >= Float.parseFloat(list.get(0)) && Float.parseFloat(t[0]) <= Float.parseFloat(list.get(0))) {
+                    temp = "true";
+                } else {
+                    temp = "false";
+                }
+                adapter4.updataView(i, mListView2, drList.get(i*8).getStrList().get(0),drList.get(i*8).getStrList().get(1),drList.get(i*8).getStrList().get(2),temp);
             }else{
                 adapter4.updataView(i, mListView2, "","","","");
             }
@@ -78,7 +100,6 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void,Void,List<DataResult>> {
     protected List<DataResult> doInBackground(Void... voids) {
         //返回参数
         List<DataResult> drList = new ArrayList<DataResult>();
-
         Connection con = null;// 创建一个数据库连接
         PreparedStatement pre = null;// 创建预编译语句对象，一般都是用这个而不用Statement
         ResultSet result = null;// 创建一个结果集对象
@@ -91,14 +112,26 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void,Void,List<DataResult>> {
             String password = "MT";// 你安装时选设置的密码
             con = DriverManager.getConnection(url, user, password);// 获取连接
             Log.d("DataBase","连接数据库MT成功");
-            String sql="";
-            if(position==0){
-                sql = "select * from MT_PLCSB_JHYSJ t where jhysj_time between to_date('2017-10-10 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('2017-10-10 23:59:59', 'yyyy-mm-dd hh24:mi:ss')";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
-            }else if(position==1){
-                sql = "select * from MT_PLCSBDESIGN where plcsbdesign_bimid = 'jhplclcfj01'";     //查询表名为“MT_PLCSB_JHYSJ”的所有内容
-            }else if(position==2){
-                sql = "select * from MT_PLCSBDESIGN where plcsbdesign_bimid = 'jhplclcfj02'";     //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            String sql = "SELECT * FROM MT_PLCSBDESIGN  where plcsbdesign_bimid='jhplcysj'";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            pre = con.prepareStatement(sql);
+            result = pre.executeQuery();
+            //遍历
+            int i=0;
+            String temp="";
+            while (result.next()){
+                //遍历数据
+                Log.d("DataBase","正在遍历数据");
+                //数据结果对象
+                DataResult dr = new DataResult();
+                //参数赋值
+                List<String> list = dr.getStrList();
+                list.add(result.getString("PLCSBDESIGN_LOWLIMIT")+"～"+result.getString("PLCSBDESIGN_HIGHLIMIT")+result.getString("PLCSBDESIGN_UNIT"));
+                if(i==position){
+                    temp=list.get(0);
+                }
+                i++;
             }
+            sql = "select * from MT_PLCSB_JHYSJ t where jhysj_time between to_date('"+year+"-"+month+"-"+day+" 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('"+year+"-"+month+"-"+day+" 23:59:59', 'yyyy-mm-dd hh24:mi:ss') order by jhysj_time asc";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             pre = con.prepareStatement(sql);
             result = pre.executeQuery();
             //遍历
@@ -110,26 +143,99 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void,Void,List<DataResult>> {
                 //参数赋值
                 DataResult dr = new DataResult();
                 if(position==0){
+                    Log.d("DataBase",result.getString("JHYSJ_GYWD"));
                     List<String> list = dr.getStrList();
-                    Log.d("DataBase",result.getString("jhysj_time"));
-                    list.add(result.getString("jhysj_time"));
+                    list.add(result.getString("JHYSJ_GYWD"));
+                    list.add(temp);
                     dr.setStrList(list);
                 }else if(position==1){
                     List<String> list = dr.getStrList();
-                    list.add(result.getString("PLCSBDESIGN_NAME"));
+                    list.add(result.getString("JHYSJ_PQYL"));
+                    list.add(temp);
                     dr.setStrList(list);
                 }
                 else if(position==2){
                     List<String> list = dr.getStrList();
-                    list.add(result.getString("PLCSBDESIGN_NAME"));
+                    list.add(result.getString("JHYSJ_XQYL"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==3){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_GYYL"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==4){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_ZJDL"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==5){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_NLZW"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==6){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_YYC"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==7){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_PQWD"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==8){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_YFWD"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==9){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_XQWD"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==10){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_GLQYC"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==1){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_JLYC"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==12){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_AWD"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==13){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_BWD"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==14){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_CWD"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==15){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_ZSDWD"));
+                    list.add(temp);
+                    dr.setStrList(list);
+                }else if(position==16){
+                    List<String> list = dr.getStrList();
+                    list.add(result.getString("JHYSJ_FZSDWD"));
+                    list.add(temp);
                     dr.setStrList(list);
                 }
+                List<String> list = dr.getStrList();
+                list.add(result.getString("jhysj_time"));
+                dr.setStrList(list);
                 //添加到结果列表
                 drList.add(dr);
             }
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally{

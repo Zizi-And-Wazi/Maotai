@@ -35,19 +35,19 @@ public class YCLYY extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dateb);
-            button6 = (Button) findViewById(R.id.button6);
-            button6.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(),
-                            "刷新数据中...", Toast.LENGTH_SHORT).show();
-                    new TimeThread().start(); //启动新的线程
-                    initView();
-                    //刷新右边列表
-                    DBHelper db = new DBHelper(context, mListView2, adapter2,selectIndex);
-                    db.execute();
-                }
-            });
+        button6 = (Button) findViewById(R.id.button6);
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),
+                        "刷新数据中...", Toast.LENGTH_SHORT).show();
+                new TimeThread().start(); //启动新的线程
+                initView();
+                //刷新右边列表
+                DBHelper_2 db = new DBHelper_2(context, mListView2, adapter2,selectIndex);
+                db.execute();
+            }
+        });
         new TimeThread().start(); //启动新的线程
         initView();
         context = this;

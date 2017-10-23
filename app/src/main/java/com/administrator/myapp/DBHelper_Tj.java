@@ -128,8 +128,6 @@ public class DBHelper_Tj extends AsyncTask<Void,Void,List<DataResult>> {
                 drList.add(dr);
             }
 
-
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally{

@@ -79,6 +79,7 @@ public class ZQJH_Tj extends AppCompatActivity {
                 Intent intent = new Intent(ZQJH_Tj.this, ZQJH_TJ_DATA.class);
                 intent.putExtra("name",strList_1.get(position));
                 intent.putExtra("selectIndex",selectIndex);
+                intent.putExtra("position",position);
                 startActivity(intent);
                 Toast.makeText(getApplicationContext(),
                         strList_1.get(position), Toast.LENGTH_SHORT).show();
