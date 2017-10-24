@@ -38,7 +38,6 @@ public class ZQJH_TJ_DATA extends AppCompatActivity{
     private List<String> list1 = new ArrayList<String>();//创建一个String类型的数组列表。
     private List<String> list2 = new ArrayList<String>();//创建一个String类型的数组列表。
     private List<String> list3 = new ArrayList<String>();//创建一个String类型的数组列表。
-    private TextView myTextView;
     private Spinner mySpinner;
     private Spinner mySpinner2;
     private Spinner mySpinner3;
@@ -142,7 +141,7 @@ public class ZQJH_TJ_DATA extends AppCompatActivity{
     }
     private void initView() {
         mListView2 = (ListView) findViewById(R.id.list_item_2);
-        for(int i=0;i<10000;i++){
+        for(int i=0;i<300;i++){
             strList_1.add("");
             strList_2.add("");
             strList_3.add("");

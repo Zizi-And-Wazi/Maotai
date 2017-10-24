@@ -73,7 +73,7 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void,Void,List<DataResult>> {
         String temp="";
         String[] t=new String[2];
         //循环遍历查询的数据
-        for(int i=0;i<200;i++){
+        for(int i=0;i<300;i++){
             List<String> list = drList.get(i*8).getStrList();
             //更新数据
             if(i<drList.size()/8){
