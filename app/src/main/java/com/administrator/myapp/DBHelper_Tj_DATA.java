@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.administrator.myapp.adapter.StaticAdapter;
 import com.administrator.myapp.entity.DataResult;
@@ -29,13 +31,15 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
     private ListView mListView2;            //界面右边的ListView控件
     private StaticAdapter adapter4;   //界面右边的ListView控件的数据
     private int position;       //左侧点击列表的位置
+    private TextView nt;
     private String year;
     private String month;
     private String day;
     private int c = 0;
+    private int selectIndex;
 
     //构造方法(赋值)
-    public DBHelper_Tj_DATA(Context context, ListView mListView2, StaticAdapter adapter4, int position, String year, String month, String day) {
+    public DBHelper_Tj_DATA(Context context, ListView mListView2,TextView nt, StaticAdapter adapter4, int position, String year, String month, String day,int selectIndex) {
         this.context = context;
         this.mListView2 = mListView2;
         this.adapter4 = adapter4;
@@ -43,6 +47,8 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
         this.year = year;
         this.month = month;
         this.day = day;
+        this.selectIndex=selectIndex;
+        this.nt=nt;
     }
 
     /**
@@ -74,11 +80,15 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
     protected void onPostExecute(List<DataResult> drList) {
         String temp = "";
         String[] t = new String[2];
+        if(drList.size()==0){
+            return;
+        }
+        int count=0;
         //循环遍历查询的数据
         for (int i = 0; i < 300; i++) {
-            List<String> list = drList.get(i * 8).getStrList();
             //更新数据
             if (i < drList.size() / 8) {
+                List<String> list = drList.get(i * 8).getStrList();
                 for (int n = 0; n < list.get(1).length(); n++) {
                     if (!Character.isDigit(list.get(1).charAt(n)) && list.get(1).charAt(n) != '～') {
                         temp = list.get(1).substring(0, n);
@@ -90,12 +100,14 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
                     temp = "true";
                 } else {
                     temp = "false";
+                    count++;
                 }
                 adapter4.updataView(i, mListView2, drList.get(i * 8).getStrList().get(0), drList.get(i * 8).getStrList().get(1), drList.get(i * 8).getStrList().get(2), temp);
             } else {
-                return;
+                adapter4.updataView(i, mListView2, " " , " ", " ", " ");
             }
         }
+        nt.setText("报警次数："+count);
     }
 
     @Override
@@ -114,7 +126,14 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
             String password = "MT";// 你安装时选设置的密码
             con = DriverManager.getConnection(url, user, password);// 获取连接
             Log.d("DataBase", "连接数据库MT成功");
-            String sql = "SELECT * FROM MT_PLCSBDESIGN  where plcsbdesign_bimid='jhplcysj'";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            String sql = "";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            if(selectIndex==0){
+                sql = "SELECT * FROM MT_PLCSBDESIGN  where plcsbdesign_bimid='jhplcysj'";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            }else if(selectIndex==1){
+                sql = "select * from MT_PLCSBDESIGN where plcsbdesign_bimid = 'jhplclcfj01'";     //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            }else if(selectIndex==2){
+                sql = "select * from MT_PLCSBDESIGN where plcsbdesign_bimid = 'jhplclcfj02'";     //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            }
             pre = con.prepareStatement(sql);
             result = pre.executeQuery();
             //遍历
@@ -133,7 +152,14 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
                 }
                 i++;
             }
-            sql = "select * from MT_PLCSB_JHYSJ t where jhysj_time between to_date('" + year + "-" + month + "-" + day + " 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + year + "-" + month + "-" + day + " 23:59:59', 'yyyy-mm-dd hh24:mi:ss') order by jhysj_time asc";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+
+            if(selectIndex==0){
+                sql = "select * from MT_PLCSB_JHYSJ t where jhysj_time between to_date('" + year + "-" + month + "-" + day + " 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + year + "-" + month + "-" + day + " 23:59:59', 'yyyy-mm-dd hh24:mi:ss') order by jhysj_time asc";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            }else if(selectIndex==1){
+                sql = "select * from mt_plcsb_JHLCFJ01 t where JHLCFJ01_time between to_date('" + year + "-" + month + "-" + day + " 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + year + "-" + month + "-" + day + " 23:59:59', 'yyyy-mm-dd hh24:mi:ss') order by JHLCFJ01_time asc";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            }else if(selectIndex==2){
+                sql = "select * from mt_plcsb_JHLCFJ02 t where JHLCFJ02_time between to_date('" + year + "-" + month + "-" + day + " 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + year + "-" + month + "-" + day + " 23:59:59', 'yyyy-mm-dd hh24:mi:ss') order by JHLCFJ02_time asc";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
+            }
             pre = con.prepareStatement(sql);
             result = pre.executeQuery();
             //遍历
@@ -144,98 +170,146 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
                 //DataResult dr = new DataResult();
                 //参数赋值
                 DataResult dr = new DataResult();
-                if (position == 0) {
-                    Log.d("DataBase", result.getString("JHYSJ_GYWD"));
+                if(selectIndex==0){
+                    if (position == 0) {
+                        Log.d("DataBase", result.getString("JHYSJ_GYWD"));
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_GYWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 1) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_PQYL"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 2) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_XQYL"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 3) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_GYYL"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 4) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_ZJDL"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 5) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_NLZW"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 6) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_YYC"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 7) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_PQWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 8) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_YFWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 9) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_XQWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 10) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_GLQYC"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 1) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_JLYC"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 12) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_AWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 13) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_BWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 14) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_CWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 15) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_ZSDWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 16) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHYSJ_FZSDWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    }
                     List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_GYWD"));
-                    list.add(temp);
+                    list.add(result.getString("jhysj_time"));
                     dr.setStrList(list);
-                } else if (position == 1) {
+                    //添加到结果列表
+                    drList.add(dr);
+                }else if(selectIndex==1){
+                    if (position == 0) {
+                        Log.d("DataBase", result.getString("JHLCFJ01_LCFJZS"));
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHLCFJ01_LCFJZS"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 1) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHLCFJ01_LCFJJQYL"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 2) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHLCFJ01_LCFJCKWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    }
                     List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_PQYL"));
-                    list.add(temp);
+                    list.add(result.getString("JHLCFJ01_time"));
                     dr.setStrList(list);
-                } else if (position == 2) {
+                    //添加到结果列表
+                    drList.add(dr);
+                }else if(selectIndex==2){
+                    if (position == 0) {
+                        Log.d("DataBase", result.getString("JHLCFJ02_LCFJZS"));
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHLCFJ02_LCFJZS"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 1) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHLCFJ02_LCFJJQYL"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    } else if (position == 2) {
+                        List<String> list = dr.getStrList();
+                        list.add(result.getString("JHLCFJ02_LCFJCKWD"));
+                        list.add(temp);
+                        dr.setStrList(list);
+                    }
                     List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_XQYL"));
-                    list.add(temp);
+                    list.add(result.getString("JHLCFJ02_time"));
                     dr.setStrList(list);
-                } else if (position == 3) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_GYYL"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 4) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_ZJDL"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 5) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_NLZW"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 6) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_YYC"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 7) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_PQWD"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 8) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_YFWD"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 9) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_XQWD"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 10) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_GLQYC"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 1) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_JLYC"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 12) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_AWD"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 13) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_BWD"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 14) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_CWD"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 15) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_ZSDWD"));
-                    list.add(temp);
-                    dr.setStrList(list);
-                } else if (position == 16) {
-                    List<String> list = dr.getStrList();
-                    list.add(result.getString("JHYSJ_FZSDWD"));
-                    list.add(temp);
-                    dr.setStrList(list);
+                    //添加到结果列表
+                    drList.add(dr);
                 }
-                List<String> list = dr.getStrList();
-                list.add(result.getString("jhysj_time"));
-                dr.setStrList(list);
-                //添加到结果列表
-                drList.add(dr);
             }
         } catch (Exception e) {
             e.printStackTrace();

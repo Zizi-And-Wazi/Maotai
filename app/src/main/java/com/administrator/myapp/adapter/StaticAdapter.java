@@ -94,6 +94,13 @@ public class StaticAdapter extends BaseAdapter {
      * @param listView
      */
     public void updataView(int posi, ListView listView, String dataValue_1, String dataValue_2, String dataValue_3, String dataValue_4) {
+        if(dataValue_1.equals(" ")){
+            strList_1.set(posi, dataValue_3);
+            strList_2.set(posi, dataValue_2);
+            strList_3.set(posi, dataValue_1);
+            strList_4.set(posi, dataValue_4);
+            return;
+        }
         int visibleFirstPosi = listView.getFirstVisiblePosition();
         int visibleLastPosi = listView.getLastVisiblePosition();
         if (posi >= visibleFirstPosi && posi <= visibleLastPosi) {
