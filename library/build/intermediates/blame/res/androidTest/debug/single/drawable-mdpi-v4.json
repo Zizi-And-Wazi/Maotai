@@ -8,18 +8,6 @@
         "source": "C:\\Users\\Mike Li\\Documents\\Git\\MyApp\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_rotate.png"
     },
     {
-        "merged": "D:\\Users\\Administrator\\AndroidStudioProjects\\MyApp\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\default_ptr_rotate.png",
-        "source": "D:\\Users\\Administrator\\AndroidStudioProjects\\MyApp\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_rotate.png"
-    },
-    {
-        "merged": "D:\\Users\\Administrator\\AndroidStudioProjects\\MyApp\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\indicator_arrow.png",
-        "source": "D:\\Users\\Administrator\\AndroidStudioProjects\\MyApp\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\indicator_arrow.png"
-    },
-    {
-        "merged": "D:\\Users\\Administrator\\AndroidStudioProjects\\MyApp\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\default_ptr_flip.png",
-        "source": "D:\\Users\\Administrator\\AndroidStudioProjects\\MyApp\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_flip.png"
-    },
-    {
         "merged": "C:\\Users\\Mike Li\\Documents\\Git\\MyApp\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\default_ptr_flip.png",
         "source": "C:\\Users\\Mike Li\\Documents\\Git\\MyApp\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_flip.png"
     }

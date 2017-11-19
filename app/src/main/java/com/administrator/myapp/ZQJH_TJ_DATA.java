@@ -137,6 +137,7 @@ public class ZQJH_TJ_DATA extends AppCompatActivity {
         button7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nt.setText("加载中...");
                 DBHelper_Tj_DATA db = new DBHelper_Tj_DATA(context, mListView2,nt, adapter2, p, year, month, day, selectIndex);
                 db.execute();
             }

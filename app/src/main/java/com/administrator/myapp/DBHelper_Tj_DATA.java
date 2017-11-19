@@ -81,6 +81,7 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
         String temp = "";
         String[] t = new String[2];
         if(drList.size()==0){
+            nt.setText("查询日期数据为空");
             return;
         }
         int count=0;
@@ -100,7 +101,9 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
                     temp = "true";
                 } else {
                     temp = "false";
-                    count++;
+                    if(Float.parseFloat(t[1]) < Float.parseFloat(list.get(0))){
+                        count++;
+                    }
                 }
                 adapter4.updataView(i, mListView2, drList.get(i * 8).getStrList().get(0), drList.get(i * 8).getStrList().get(1), drList.get(i * 8).getStrList().get(2), temp);
             } else {
