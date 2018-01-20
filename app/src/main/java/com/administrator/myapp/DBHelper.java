@@ -64,6 +64,9 @@ public class DBHelper extends AsyncTask<Void,Void,List<DataResult>> {
     @Override
     protected void onPostExecute(List<DataResult> drList) {
         List<String> list = drList.get(0).getStrList();
+        if(drList.size()==0){
+            return;
+        }
         String temp="";
         String[] t=new String[2];
         //循环遍历查询的数据
@@ -71,19 +74,32 @@ public class DBHelper extends AsyncTask<Void,Void,List<DataResult>> {
             if(i>list.size()/3-1){
                 adapter2.updataView(i,mListView2," "," "," "," ");
             }else {
+                int count=0;
+                for(int ia=0;ia<list.get(i * 2 + list.size() / 3).length();ia++){
+                    if(list.get(i * 2 + list.size() / 3).charAt(ia)=='.'){
+                        count++;
+                    }
+                }
+                int countT=count;
                 for (int n = 0; n < list.get(i * 2 + list.size() / 3).length(); n++) {
                     if (!Character.isDigit(list.get(i * 2 + list.size() / 3).charAt(n)) && list.get(i * 2 + list.size() / 3).charAt(n) != '～') {
                         int a = i * 2 + list.size() / 3;
-                        if (n == 0) {
-                            temp = "0";
-                            break;
+                        if(countT!=0){
+                            countT--;
+                        }else{
+                            if (n == 0) {
+                                temp = "0";
+                            }else {
+                                temp = list.get(a).substring(0, n+count);
+                                t = temp.split("～");
+                                break;
+                            }
                         }
-                        temp = list.get(a).substring(0, n);
-                        t = temp.split("～");
-                        break;
                     }
                 }
-                if (Float.parseFloat(t[1]) >= Float.parseFloat(list.get(i)) && Float.parseFloat(t[0]) <= Float.parseFloat(list.get(i))) {
+                if(count!=0){
+                    temp = "false";
+                }else if (Float.parseFloat(t[1]) >= Float.parseFloat(list.get(i)) && Float.parseFloat(t[0]) <= Float.parseFloat(list.get(i))) {
                     temp = "true";
                 } else {
                     temp = "false";
@@ -106,7 +122,7 @@ public class DBHelper extends AsyncTask<Void,Void,List<DataResult>> {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");// 加载Oracle驱动程序
             Log.d("DataBase","开始连接数据库MT");      //第一个参数是标签，第二个参数是信息
-            String url = "jdbc:oracle:thin:@120.76.75.95:1521:orcl";// 127.0.0.1是本机地址，XE是精简版Oracle的默认数据库名
+            String url = "jdbc:oracle:thin:@120.76.212.185:1521:Ptecorcl";// 127.0.0.1是本机地址，XE是精简版Oracle的默认数据库名
             String user = "MT";// 用户名,系统默认的账户名
             String password = "MT";// 你安装时选设置的密码
             con = DriverManager.getConnection(url, user, password);// 获取连接
@@ -255,7 +271,6 @@ public class DBHelper extends AsyncTask<Void,Void,List<DataResult>> {
                 e.printStackTrace();
             }
         }
-
         return drList;
     }
 

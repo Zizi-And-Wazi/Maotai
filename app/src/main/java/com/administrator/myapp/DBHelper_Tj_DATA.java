@@ -124,7 +124,7 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");// 加载Oracle驱动程序
             Log.d("DataBase", "开始连接数据库MT");      //第一个参数是标签，第二个参数是信息
-            String url = "jdbc:oracle:thin:@120.76.75.95:1521:orcl";// 127.0.0.1是本机地址，XE是精简版Oracle的默认数据库名
+            String url = "jdbc:oracle:thin:@120.76.212.185:1521:Ptecorcl";// 127.0.0.1是本机地址，XE是精简版Oracle的默认数据库名
             String user = "MT";// 用户名,系统默认的账户名
             String password = "MT";// 你安装时选设置的密码
             con = DriverManager.getConnection(url, user, password);// 获取连接

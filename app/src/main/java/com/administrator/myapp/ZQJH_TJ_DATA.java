@@ -65,7 +65,6 @@ public class ZQJH_TJ_DATA extends AppCompatActivity {
             itemName.setText(mMenus[selectIndex] + " " + name + " 统计数据");
         }
         // 添加一个下拉列表项的list，这里添加的项就是下拉列表的菜单项，即数据源
-        list1.add("2017");
         list1.add("2018");
         for (int i = 1; i < 13; i++) {
             list2.add(String.valueOf(i));

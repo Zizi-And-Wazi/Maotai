@@ -1,3 +1,4 @@
+com.handmark.pulltorefresh.library
 int anim slide_in_from_bottom 0x7f010001
 int anim slide_in_from_top 0x7f010002
 int anim slide_out_to_bottom 0x7f010003
