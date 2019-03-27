@@ -47,7 +47,7 @@ public class ZQJH extends AppCompatActivity {
                 new TimeThread().start(); //启动新的线程
                 initView();
                 //刷新右边列表
-                DBHelper db = new DBHelper(context, mListView2, adapter2,selectIndex);
+                DBHelper db = new DBHelper(context, mListView2, adapter2,selectIndex,mHandler);
                 db.execute();
             }
         });
@@ -65,7 +65,7 @@ public class ZQJH extends AppCompatActivity {
         initView();
         context = this;
         //刷新右边列表
-        DBHelper db = new DBHelper(context, mListView2, adapter2,0);
+        DBHelper db = new DBHelper(context, mListView2, adapter2,0,mHandler);
         db.execute();
     }
 
@@ -88,7 +88,7 @@ public class ZQJH extends AppCompatActivity {
                 mListView1.smoothScrollToPositionFromTop(position,0);
 
                 //刷新右边列表
-                DBHelper db = new DBHelper(context, mListView2, adapter2,selectIndex);
+                DBHelper db = new DBHelper(context, mListView2, adapter2,selectIndex, mHandler);
                 db.execute();
             }
         });
@@ -134,6 +134,10 @@ public class ZQJH extends AppCompatActivity {
                     Date date = new Date(sysTime);
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     time.setText(format.format(date));//更新时间
+                    break;
+                case 2:
+                    Toast.makeText(getApplicationContext(),
+                            "数据获取错误，请重试", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;

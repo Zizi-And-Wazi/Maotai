@@ -63,10 +63,10 @@ public class DBHelper_2 extends AsyncTask<Void,Void,List<DataResult>> {
      */
     @Override
     protected void onPostExecute(List<DataResult> drList) {
-        List<String> list = drList.get(0).getStrList();
         if(drList.size()==0){
             return;
         }
+        List<String> list = drList.get(0).getStrList();
         String temp="";
         String[] t=new String[2];
         //循环遍历查询的数据
@@ -115,8 +115,16 @@ public class DBHelper_2 extends AsyncTask<Void,Void,List<DataResult>> {
             if(position==0){
                 sql = "select * from (select * from MT_PLCSB_YYXHG01 order by YYXHG01_time desc) where rownum=1";     //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }
-            pre = con.prepareStatement(sql);
-            result = pre.executeQuery();
+            try {
+                pre = con.prepareStatement(sql);
+                result = pre.executeQuery();
+            }catch (Exception e){
+                DataResult dr = new DataResult();
+                List<String> list = dr.getStrList();
+                dr.setStrList(list);
+                drList.add(dr);
+                return drList;
+            }
             //遍历
             while (result.next()){
                 //遍历数据
@@ -152,8 +160,16 @@ public class DBHelper_2 extends AsyncTask<Void,Void,List<DataResult>> {
             if(position==0){
                 sql = "SELECT * FROM MT_PLCSBDESIGN  where plcsbdesign_bimid='YYXHG01'";  //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }
-            pre = con.prepareStatement(sql);
-            result = pre.executeQuery();
+            try {
+                pre = con.prepareStatement(sql);
+                result = pre.executeQuery();
+            }catch (Exception e){
+                DataResult dr = new DataResult();
+                List<String> list = dr.getStrList();
+                dr.setStrList(list);
+                drList.add(dr);
+                return drList;
+            }
             //遍历
             while (result.next()){
                 //遍历数据

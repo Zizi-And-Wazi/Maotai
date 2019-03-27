@@ -2,6 +2,8 @@ package com.administrator.myapp;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -27,13 +29,15 @@ public class DBHelper1 extends AsyncTask<Void,Void,List<DataResult>> {
     private ListView mListView2;            //界面右边的ListView控件
     private MyListViewAdapter3 adapter3;   //界面右边的ListView控件的数据
     private int position;       //左侧点击列表的位置
+    private Handler mHandler;
 
     //构造方法(赋值)
-    public DBHelper1(Context context, ListView mListView2, MyListViewAdapter3 adapter3, int position){
+    public DBHelper1(Context context, ListView mListView2, MyListViewAdapter3 adapter3, int position, Handler mHandler){
         this.context = context;
         this.mListView2 = mListView2;
         this.adapter3 = adapter3;
         this.position = position;
+        this.mHandler = mHandler;
     }
 
 
@@ -63,10 +67,10 @@ public class DBHelper1 extends AsyncTask<Void,Void,List<DataResult>> {
      */
     @Override
     protected void onPostExecute(List<DataResult> drList) {
-        List<String> list = drList.get(0).getStrList();
         if(drList.size()==0){
             return;
         }
+        List<String> list = drList.get(0).getStrList();
         //循环遍历查询的数据
         for(int i=0;i<list.size()/2;i++){
             //更新数据
@@ -96,8 +100,19 @@ public class DBHelper1 extends AsyncTask<Void,Void,List<DataResult>> {
 
             sql = "select * from (select * from MT_ELECREALTIMEDATA order by ELECREALTIMEDATA_time desc) where elecrealtimedata_sbid = '28'and rownum=1";    //查询表名为“MT_PLCSB_JHYSJ”的所有内容
 
-            pre = con.prepareStatement(sql);
-            result = pre.executeQuery();
+            try {
+                pre = con.prepareStatement(sql);
+                result = pre.executeQuery();
+            }catch (Exception e){
+                Message msg = new Message();
+                msg.what = 2;  //消息(一个整型值)
+                mHandler.sendMessage(msg);// 每隔1秒发送一个msg给mHandler
+                DataResult dr = new DataResult();
+                List<String> list = dr.getStrList();
+                dr.setStrList(list);
+                drList.add(dr);
+                return drList;
+            }
             //遍历
             while (result.next()) {
                 //遍历数据
@@ -137,8 +152,19 @@ public class DBHelper1 extends AsyncTask<Void,Void,List<DataResult>> {
             }else if(position==1){
                 sql = "select * from (select * from MT_ELECREALTIMEDATA order by ELECREALTIMEDATA_time desc) where elecrealtimedata_sbid = '34'and rownum=1";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }
-            pre = con.prepareStatement(sql);
-            result = pre.executeQuery();
+            try {
+                pre = con.prepareStatement(sql);
+                result = pre.executeQuery();
+            }catch (Exception e){
+                Message msg = new Message();
+                msg.what = 2;  //消息(一个整型值)
+                mHandler.sendMessage(msg);// 每隔1秒发送一个msg给mHandler
+                DataResult dr = new DataResult();
+                List<String> list = dr.getStrList();
+                dr.setStrList(list);
+                drList.add(dr);
+                return drList;
+            }
             //遍历
             while (result.next()){
                 //遍历数据

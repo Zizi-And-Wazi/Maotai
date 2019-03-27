@@ -118,21 +118,8 @@
                 android:text="中节能绿碳环保有限公司"
                 android:textColor="@android:color/black"
                 android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/tipname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="165dp"
-                android:layout_below="@+id/login_btn_login"
-                android:text="由南京新创力光电科技有限公司提供数据支持"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
         </RelativeLayout>
     </ScrollView>
-
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -142,6 +129,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="200dp"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/tipname1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="65dp"
+        android:layout_below="@+id/login_btn_login"
+        android:text="中节能绿碳（遵义）环保有限公司"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/tipname2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:layout_below="@+id/login_btn_login"
+        android:text="中节能建设工程设计院有限公司"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/tipname3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:layout_below="@+id/login_btn_login"
+        android:text="电子科技大学"
         android:textColor="@android:color/black"
         android:textSize="15sp" />
 </RelativeLayout>

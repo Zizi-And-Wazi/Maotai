@@ -2,8 +2,11 @@ package com.administrator.myapp;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.administrator.myapp.adapter.MyListViewAdapter2;
 import com.administrator.myapp.entity.DataResult;
@@ -27,13 +30,15 @@ public class DBHelper extends AsyncTask<Void,Void,List<DataResult>> {
     private ListView mListView2;            //界面右边的ListView控件
     private MyListViewAdapter2 adapter2;   //界面右边的ListView控件的数据
     private int position;       //左侧点击列表的位置
+    private Handler mHandler;
 
     //构造方法(赋值)
-    public DBHelper(Context context, ListView mListView2, MyListViewAdapter2 adapter2, int position){
+    public DBHelper(Context context, ListView mListView2, MyListViewAdapter2 adapter2, int position, Handler mHandler) {
         this.context = context;
         this.mListView2 = mListView2;
         this.adapter2 = adapter2;
         this.position = position;
+        this.mHandler = mHandler;
     }
 
 
@@ -63,10 +68,11 @@ public class DBHelper extends AsyncTask<Void,Void,List<DataResult>> {
      */
     @Override
     protected void onPostExecute(List<DataResult> drList) {
-        List<String> list = drList.get(0).getStrList();
         if(drList.size()==0){
             return;
         }
+        List<String> list = drList.get(0).getStrList();
+
         String temp="";
         String[] t=new String[2];
         //循环遍历查询的数据
@@ -135,8 +141,19 @@ public class DBHelper extends AsyncTask<Void,Void,List<DataResult>> {
             }else if(position==2){
                 sql = "select * from (select * from mt_plcsb_JHLCFJ02 order by JHLCFJ02_time desc) where rownum=1";    //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }
-            pre = con.prepareStatement(sql);
-            result = pre.executeQuery();
+            try {
+                pre = con.prepareStatement(sql);
+                result = pre.executeQuery();
+            }catch (Exception e){
+                Message msg = new Message();
+                msg.what = 2;  //消息(一个整型值)
+                mHandler.sendMessage(msg);// 每隔1秒发送一个msg给mHandler
+                DataResult dr = new DataResult();
+                List<String> list = dr.getStrList();
+                dr.setStrList(list);
+                drList.add(dr);
+                return drList;
+            }
             //遍历
             while (result.next()){
                 //遍历数据
@@ -224,8 +241,19 @@ public class DBHelper extends AsyncTask<Void,Void,List<DataResult>> {
             }else if(position==2){
                 sql = "select * from MT_PLCSBDESIGN where plcsbdesign_bimid = 'jhplclcfj02'";     //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }
-            pre = con.prepareStatement(sql);
-            result = pre.executeQuery();
+            try {
+                pre = con.prepareStatement(sql);
+                result = pre.executeQuery();
+            }catch (Exception e){
+                Message msg = new Message();
+                msg.what = 2;  //消息(一个整型值)
+                mHandler.sendMessage(msg);// 每隔1秒发送一个msg给mHandler
+                DataResult dr = new DataResult();
+                List<String> list = dr.getStrList();
+                dr.setStrList(list);
+                drList.add(dr);
+                return drList;
+            }
             //遍历
             while (result.next()){
                 //遍历数据

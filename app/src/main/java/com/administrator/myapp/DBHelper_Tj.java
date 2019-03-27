@@ -62,10 +62,10 @@ public class DBHelper_Tj extends AsyncTask<Void,Void,List<DataResult>> {
      */
     @Override
     protected void onPostExecute(List<DataResult> drList) {
-        List<String> list = drList.get(0).getStrList();
         if(drList.size()==0){
             return;
         }
+        List<String> list = drList.get(0).getStrList();
         //循环遍历查询的数据
         for(int i=0;i<17;i++){
             //更新数据
@@ -102,8 +102,16 @@ public class DBHelper_Tj extends AsyncTask<Void,Void,List<DataResult>> {
             }else if(position==2){
                 sql = "select * from MT_PLCSBDESIGN where plcsbdesign_bimid = 'jhplclcfj02'";     //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }
-            pre = con.prepareStatement(sql);
-            result = pre.executeQuery();
+            try {
+                pre = con.prepareStatement(sql);
+                result = pre.executeQuery();
+            }catch (Exception e){
+                DataResult dr = new DataResult();
+                List<String> list = dr.getStrList();
+                dr.setStrList(list);
+                drList.add(dr);
+                return drList;
+            }
             //遍历
             while (result.next()){
                 //遍历数据

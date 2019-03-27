@@ -137,8 +137,16 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
             }else if(selectIndex==2){
                 sql = "select * from MT_PLCSBDESIGN where plcsbdesign_bimid = 'jhplclcfj02'";     //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }
-            pre = con.prepareStatement(sql);
-            result = pre.executeQuery();
+            try {
+                pre = con.prepareStatement(sql);
+                result = pre.executeQuery();
+            }catch (Exception e){
+                DataResult dr = new DataResult();
+                List<String> list = dr.getStrList();
+                dr.setStrList(list);
+                drList.add(dr);
+                return drList;
+            }
             //遍历
             int i = 0;
             String temp = "";
@@ -163,8 +171,16 @@ public class DBHelper_Tj_DATA extends AsyncTask<Void, Void, List<DataResult>> {
             }else if(selectIndex==2){
                 sql = "select * from mt_plcsb_JHLCFJ02 t where JHLCFJ02_time between to_date('" + year + "-" + month + "-" + day + " 00:00:00', 'yyyy-mm-dd hh24:mi:ss') and to_date('" + year + "-" + month + "-" + day + " 23:59:59', 'yyyy-mm-dd hh24:mi:ss') order by JHLCFJ02_time asc";   //查询表名为“MT_PLCSB_JHYSJ”的所有内容
             }
-            pre = con.prepareStatement(sql);
-            result = pre.executeQuery();
+            try {
+                pre = con.prepareStatement(sql);
+                result = pre.executeQuery();
+            }catch (Exception e){
+                DataResult dr = new DataResult();
+                List<String> list = dr.getStrList();
+                dr.setStrList(list);
+                drList.add(dr);
+                return drList;
+            }
             //遍历
             while (result.next()) {
                 //遍历数据

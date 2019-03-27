@@ -17,6 +17,7 @@ import com.administrator.myapp.adapter.StaticAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public class ZQJH_TJ_DATA extends AppCompatActivity {
     private String month;
     private String day;
     private Button button7;
-
+    private static final int START_YEAR = 2018;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,11 @@ public class ZQJH_TJ_DATA extends AppCompatActivity {
             itemName.setText(mMenus[selectIndex] + " " + name + " 统计数据");
         }
         // 添加一个下拉列表项的list，这里添加的项就是下拉列表的菜单项，即数据源
-        list1.add("2018");
+        Calendar date = Calendar.getInstance();
+        int thisYear = date.get(Calendar.YEAR);
+        for (int i = START_YEAR; i <= thisYear; i++) {
+            list1.add(String.valueOf(i));
+        }
         for (int i = 1; i < 13; i++) {
             list2.add(String.valueOf(i));
         }
@@ -80,6 +85,7 @@ public class ZQJH_TJ_DATA extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
         mySpinner.setAdapter(adapter);
+        mySpinner.setSelection(thisYear-START_YEAR);
         //4.为下拉列表设置各种点击事件，以响应菜单中的文本item被选中了，用setOnItemSelectedListener
         mySpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {//选择item的选择点击监听事件
             public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -137,7 +143,7 @@ public class ZQJH_TJ_DATA extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 nt.setText("加载中...");
-                DBHelper_Tj_DATA db = new DBHelper_Tj_DATA(context, mListView2,nt, adapter2, p, year, month, day, selectIndex);
+                DBHelper_Tj_DATA db = new DBHelper_Tj_DATA(context, mListView2, nt, adapter2, p, year, month, day, selectIndex);
                 db.execute();
             }
         });
@@ -145,7 +151,7 @@ public class ZQJH_TJ_DATA extends AppCompatActivity {
 
     private void initView() {
         mListView2 = (ListView) findViewById(R.id.list_item_21);
-        nt=(TextView)findViewById(R.id.nt);
+        nt = (TextView) findViewById(R.id.nt);
         for (int i = 0; i < 300; i++) {
             strList_1.add("");
             strList_2.add("");
