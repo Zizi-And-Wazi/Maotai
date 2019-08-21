@@ -22,6 +22,7 @@
         <activity android:name=".ZQJH_Nh"></activity>
         <activity android:name=".ZQJH_NHao"></activity>
         <activity android:name=".YCLYY"></activity>
+        <activity android:name=".CNG"></activity>
         <activity android:name=".ZQJH_Tj"></activity>
         <activity android:name=".ZQJH_TJ_DATA"></activity>
     </application>

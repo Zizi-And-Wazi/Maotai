@@ -15,7 +15,7 @@
         android:paddingTop="8dp"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:text="预处理厌氧单元实时数据"
+        android:text="CNG单元实时数据"
         android:textColor="@android:color/black"
         android:textSize="24sp" />
 

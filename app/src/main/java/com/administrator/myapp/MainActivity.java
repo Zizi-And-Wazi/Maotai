@@ -74,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(),
                             "登录成功，正在进入预处理厌氧单元...", Toast.LENGTH_SHORT).show();}
+                else if (username.equals("CNG") && password.equals("CNG")) {
+                    //跳转到CNG
+                    Intent intent = new Intent(MainActivity.this, CNG.class);
+                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(),
+                            "登录成功，正在进入CNG单元...", Toast.LENGTH_SHORT).show();}
                 else if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                     Toast.makeText(getApplicationContext(),
                             "对不起，用户名" + "或者密码不能为空", Toast.LENGTH_SHORT).show();
