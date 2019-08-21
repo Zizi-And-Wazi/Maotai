@@ -164,7 +164,7 @@ public class DBHelper_3 extends AsyncTask<Void,Void,List<DataResult>> {
                 //参数赋值
                 if(position==0){
                     List<String> list = dr.getStrList();
-                    Log.d("DataBase",result.getString("JHYSJ_GYWD"));
+                    //Log.d("DataBase",result.getString("CNG1_GYWD"));
                     list.add(result.getString("CNG1_JQYL"));
                     list.add(result.getString("CNG1_PQYL1"));
                     list.add(result.getString("CNG1_PQYL2"));
@@ -187,7 +187,7 @@ public class DBHelper_3 extends AsyncTask<Void,Void,List<DataResult>> {
 
                 else if(position==1){
                     List<String> list = dr.getStrList();
-                    Log.d("DataBase",result.getString("JHLCFJ01_LCFJZS"));
+                    //Log.d("DataBase",result.getString("JHLCFJ01_LCFJZS"));
                     list.add(result.getString("CNG2_JQYL"));
                     list.add(result.getString("CNG2_PQYL1"));
                     list.add(result.getString("CNG2_PQYL2"));
@@ -208,7 +208,7 @@ public class DBHelper_3 extends AsyncTask<Void,Void,List<DataResult>> {
                 }
                 else if(position==2){
                     List<String> list = dr.getStrList();
-                    Log.d("DataBase",result.getString("JHLCFJ02_LCFJZS"));
+                    //Log.d("DataBase",result.getString("JHLCFJ02_LCFJZS"));
                     list.add(result.getString("CNG3_JQYL"));
                     list.add(result.getString("CNG3_PQYL1"));
                     list.add(result.getString("CNG3_PQYL2"));
@@ -229,7 +229,7 @@ public class DBHelper_3 extends AsyncTask<Void,Void,List<DataResult>> {
                 }
                 else if(position==3){
                     List<String> list = dr.getStrList();
-                    Log.d("DataBase",result.getString("JHLCFJ01_LCFJZS"));
+                    //Log.d("DataBase",result.getString("JHLCFJ01_LCFJZS"));
                     list.add(result.getString("CNG4_JQYL"));
                     list.add(result.getString("CNG4_PQYL1"));
                     list.add(result.getString("CNG4_PQYL2"));
